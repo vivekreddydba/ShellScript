@@ -139,7 +139,8 @@ fi
 
 ```
 vi Demo.sh
-#!/bin/bash  --> #! --> shebang line
+
+#!/bin/bash
 echo "Welcome to shellscript Rushi Tech"
 echo "Today date is"
 date
@@ -162,6 +163,7 @@ sh -x Demo.sh  # It will gives the output as command and output
 
 ```
 cat Demo.sh
+
 #!/bin/bash
 set -x  #starting point
 echo "Welcome to shellscript 
