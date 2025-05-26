@@ -148,10 +148,10 @@ date
 
 ## 🔧 How many ways you are going to run the script?
 
-- sh Demo.sh
-- ./Demo.sh  # chmod u+x Demo.sh
-- . Demo.sh
-- bash Demo.sh
+1) sh Demo.sh
+2) ./Demo.sh  # chmod u+x Demo.sh
+3) . Demo.sh
+4) bash Demo.sh
 
 
 How to run the shell script in debug mode?
