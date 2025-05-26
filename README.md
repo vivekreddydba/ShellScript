@@ -148,10 +148,10 @@ date
 
 ## 🔧 How many ways you are going to run the script?
 
-1. sh Demo.sh
-2. ./Demo.sh  --> chmod u+x Demo.sh
-3. . Demo.sh
-4. bash Demo.sh
+1) sh Demo.sh
+2) ./Demo.sh  # chmod u+x Demo.sh
+3) . Demo.sh
+4) bash Demo.sh
 
 
 How to run the shell script in debug mode?
@@ -215,8 +215,7 @@ date # Todays Date
 
 3. Multi-line Comments:
 
-Shell scripting does not support native multi-line comments like some other programming languages (e.g., /* */ in C/C++). However, you can achieve a similar effect by commenting out multiple lines using #.
-Example:
+Example 1:
 
 ```
 cat Demo.sh
@@ -224,6 +223,19 @@ cat Demo.sh
 #!/bin/bash
 #echo "Welcome to shellscript" 
 #ls
+echo "Today date is"
+date 
+```
+Example 2:
+
+```
+cat Demo.sh
+
+#!/bin/bash
+: <<'COMMENT'
+echo "Welcome to shellscript" 
+ls
+COMMENT
 echo "Today date is"
 date 
 ```
