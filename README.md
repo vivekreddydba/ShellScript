@@ -478,8 +478,21 @@ Use `-p` to prompt inline:
 ```bash
 read -p "Enter age: " age
 echo "Age is $age"
+
 ```
 
+Use `-p` with -t  to prompt inline and time out after given time:
+
+```
+# Enter your input with in 5 Secs
+read -t 5 -p "Enter Your Name: " name
+# Condition to check if name is empty or not
+if [ -z "$name" ]; then
+  echo "Timeout occurred."
+else
+  echo "Your name: $name"
+fi
+```
 ---
 
 ## ✅ 4. Command Substitution (`$(...)` or backticks)
