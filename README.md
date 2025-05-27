@@ -79,7 +79,7 @@ step 3: come back to bash
 
 ---
 
-## 📌 Why Shell Scripting is Used
+### 📌 Why Shell Scripting is Used
 
 | Purpose                      | Explanation / Example                                                            |
 |-----------------------------|----------------------------------------------------------------------------------|
@@ -93,7 +93,7 @@ step 3: come back to bash
 
 ---
 
-## 💡 Real-time DevOps Use Cases
+### 💡 Real-time DevOps Use Cases
 
 | Use Case                     | Description                                                                      |
 |-----------------------------|----------------------------------------------------------------------------------|
@@ -105,7 +105,7 @@ step 3: come back to bash
 
 ---
 
-## 🧠 Prerequisites to Learn Advanced Shell Scripting
+### 🧠 Prerequisites to Learn Advanced Shell Scripting
 
 | Area                 | What You Need to Know                                                                 |
 |----------------------|---------------------------------------------------------------------------------------|
@@ -122,7 +122,7 @@ step 3: come back to bash
 | ✅ Personal           | Commitment & Problem Solving Skills                                                  |
 ---
 
-## 🔧 Sample Script - Apache Watchdog
+### 🔧 Sample Script - Apache Watchdog
 
 ```bash
 #!/bin/bash
@@ -135,7 +135,7 @@ else
 fi
 ```
 
-## 🔧 Sample Script - How to write a shell script?
+### 🔧 Sample Script - How to write a shell script?
 
 ```
 vi Demo.sh
@@ -146,7 +146,7 @@ echo "Today date is"
 date
 ```
 
-## 🔧 How many ways you are going to run the script?
+### 🔧 How many ways you are going to run the script?
 
 1) sh Demo.sh
 2) ./Demo.sh  # chmod u+x Demo.sh
@@ -154,12 +154,14 @@ date
 4) bash Demo.sh
 
 
-How to run the shell script in debug mode?
+### How to run the shell script in debug mode?
+
+1) To run entire script(all commands) in debug mode
 
 ```
 sh -x Demo.sh  # It will gives the output as command and output
 ```
-2.  To run few commands in debug mode.
+2)  To run few commands in debug mode.
 
 ```
 cat Demo.sh
@@ -174,10 +176,10 @@ date
 sh -x Demo.sh  # From starting it will run debug mode until reaches +x
 ```
 
-## 🔧 Comments in shell scripting
+### 🔧 Comments in shell scripting
 Comments are essential for improving code readability documenting your script explaining the purpose of specific commands or sections
 
-Types of Comments:
+### Types of Comments:
 
 1. Single-line Comments:
 
@@ -215,7 +217,7 @@ date # Todays Date
 
 3. Multi-line Comments:
 
-Example 1:
+* Example 1:
 
 ```
 cat Demo.sh
@@ -226,7 +228,7 @@ cat Demo.sh
 echo "Today date is"
 date 
 ```
-Example 2:
+* Example 2:
 
 ```
 cat Demo.sh
@@ -239,3 +241,360 @@ COMMENT
 echo "Today date is"
 date 
 ```
+---
+## 🐧 Variables in Linux – Complete Guide
+
+A variable is a placeholder to store data that can be used and modified throughout a script. It helps with flexibility, reusability, and maintainability in scripting.
+
+In Linux (especially in shell scripting), **variables** are used to store data that can be used and manipulated throughout the script or command line session.
+
+### 📌 Why Use Variables in Linux?
+
+- Store and reuse values (e.g., paths, user input, command output)
+- Improve script readability and maintainability
+- Enable parameterization of scripts
+
+### ✅ Variable Naming Rules
+- Must start with a letter (A-Z, a-z) or underscore (_)
+
+- Can contain letters, numbers, and underscores (_)
+
+- No spaces, dashes, or special characters like !, @, *, etc.
+
+- Variables are case-sensitive (VAR1 ≠ var1)
+
+- Avoid using reserved shell keywords (like if, then, fi, for)
+
+
+### 🔸Types of Variables in Linux
+
+| Variable Type         | Description                                                                 |
+|-----------------------|-----------------------------------------------------------------------------|
+| **Local Variables**   |  Variables that you define yourself within your shell script. They are used to store values that can be referenced and manipulated throughout the script. User-defined variables can be assigned values using the assignment operator = and accessed using the $ symbol followed by the variable name.  |
+| **Environment Variables** | Global variables that affect system behavior or shell behavior.These are predefined variables that are set by the operating system or shell environment.System variables are typically written in all caps, and some common examples include $PATH, $HOME, and $USER.         |
+| **Shell Variables**   | Predefined or user-defined variables available to the shell.               |
+| **Positional Parameters** | Used to hold arguments passed to scripts or functions.                   |
+| **Special Variables** | Internal shell variables like `$?`, `$$`, `$!`, etc.                        |
+---
+### 🔹 1. Local Variables
+
+Defined in the current shell or script. Not available to sub-processes.
+
+```bash
+#!/bin/bash
+name="LinuxUser"
+echo "Hello, $name"
+```
+
+---
+
+### 🔹 2. Environment Variables
+
+Exported to child processes. Used by the shell and system programs.
+
+### Example:
+
+```bash
+export PATH="/usr/local/bin:$PATH"
+echo $PATH
+```
+
+### Common Environment Variables:
+
+| Variable   | Purpose                          |
+|------------|----------------------------------|
+| `PATH`     | Directories to search for commands |
+| `HOME`     | Current user's home directory     |
+| `USER`     | Current logged-in username        |
+| `SHELL`    | Current shell                     |
+| `EDITOR`   | Default editor (e.g., vim, nano)  |
+
+---
+
+### 🔹 3. Shell Variables
+
+These are set by the shell and used internally or by the user.
+
+### Example:
+
+```bash
+echo $BASH_VERSION
+```
+
+| Shell Variable | Description                      |
+|----------------|----------------------------------|
+| `BASH`         | Path to the Bash binary          |
+| `BASH_VERSION` | Current Bash version             |
+| `UID`          | User ID of the current user      |
+
+---
+
+### 🔹 4. Positional Parameters
+
+Used to access script arguments.
+
+```bash
+#!/bin/bash
+echo "Script name: $0"
+echo "First argument: $1"
+echo "Second argument: $2"
+echo "All Arguments As List: $@"
+echo "Number Of arguments Passed: $#"
+```
+
+| Symbol | Description               |
+|--------|---------------------------|
+| `$0`   | Script name               |
+| `$1`   | First argument            |
+| `$2`   | Second argument           |
+| `$@`   | All arguments as list     |
+| `$#`   | Number of arguments       |
+
+---
+
+### 🔹 5. Special Variables
+
+Shell maintains special-purpose variables.
+
+| Variable | Meaning                                                                 |
+|----------|-------------------------------------------------------------------------|
+| `$?`     | Exit status of last command (0 = success)                               |
+| `$$`     | PID of the current shell                                                |
+| `$!`     | PID of the last background process                                      |
+| `$@`     | All arguments as separate words                                         |
+| `$#`     | Total number of arguments                                               |
+
+```bash
+#!/bin/bash
+echo "Current PID: $$"
+ls /tmp
+echo "Last command exit status: $?"
+```
+
+---
+
+### 🧪 Real-Time Use Case Example
+
+```bash
+#!/bin/bash
+
+backup_dir="/backup"
+current_date=$(date +%F)
+
+mkdir -p "$backup_dir/$current_date"
+echo "Backup directory created at $backup_dir/$current_date"
+```
+
+✅ This script:
+- Uses a local variable `backup_dir`
+- Uses a command substitution to assign `current_date`
+- Makes a directory with the current date under `/backup`
+
+---
+
+### 📎 Check All Environment Variables
+
+```bash
+printenv      # or env
+```
+
+---
+
+### 📎 Set and Unset Variables
+
+```bash
+VAR1="hello"
+unset VAR1
+```
+---
+### Example Script With System(Environment) Variables & User Defined Vars
+
+```
+#!/bin/bash
+
+# System Variables
+
+echo "System Variables"
+echo
+echo "Bash: $BASH" # Prints the location of bash
+echo "User: $USER" # Prints the name of the user
+echo "Home: $HOME" # Prints the home directory
+echo "Bash version: $BASH_VERSION" # Prints the bash version
+echo "Current directory: $PWD" # Prints the working directory
+echo "Path to the location of the script: $PATH" # Prints the path to the current directory of the shell script
+
+#User defined variables
+
+echo
+echo "User Defined Variables"
+first_name="Balaji"
+last_name="Reddy"
+echo "My name is $first_name $last_name"
+```
+---
+# 📄 Ways to Assign or Pass Values to Variables in Shell Script
+
+In Shell Scripting (especially Bash), there are **several ways to assign or pass values to variables**, depending on the context and usage. Here's a complete breakdown with examples:
+
+---
+
+## ✅ 1. Direct Assignment
+Assign a value directly inside the script.
+
+```bash
+name="Balaji"
+age=30
+```
+
+- **No spaces** around `=`
+- Double quotes are preferred to avoid issues with spaces or special characters.
+
+---
+
+## ✅ 2. Using `export` (For Environment Variables)
+Makes the variable available to child processes. Convention Define Varibale Name in CAPS
+
+```bash
+echo "PATH is: $PATH"
+export MYVAR="Linux"
+echo "MYVAR: $MYVAR"
+```
+
+Used when you want the variable accessible to subprocesses (like in other scripts).
+
+---
+
+## ✅ 3. Read from User Input (`read` command)
+Prompt the user to enter a value.
+
+```bash
+echo "Enter your name:"
+read name
+echo "Your name is: $name"
+```
+
+Use `-p` to prompt inline:
+
+```bash
+read -p "Enter age: " age
+echo "Age is $age"
+```
+
+---
+
+## ✅ 4. Command Substitution (`$(...)` or backticks)
+Assign the output of a command to a variable.
+
+```bash
+today=$(date) # Recomnded Way Of Command Substitution
+host_name=`hostname` # Old And Not Recomended
+
+echo "today date is $today"
+echo "System HostName: $host_name"
+
+```
+
+---
+
+## ✅ 5. From Script Arguments (Positional Parameters)
+Capture values passed when running the script.
+
+```bash
+#!/bin/bash
+echo "First argument: $1"
+echo "Second argument: $2"
+```
+
+Run as:
+```bash
+./script.sh Balaji 30
+```
+
+---
+
+---
+
+## ✅ 6. Using `source` or `.` command (From external file)
+Assign variables from another file.
+
+### `vars.sh`:
+```bash
+username="admin"
+password="secret"
+```
+
+### `main.sh`:
+```bash
+source ./vars.sh
+echo "Username is $username"
+```
+
+---
+
+## ✅ 8. Using `declare` or `typeset` (for attribute assignment)
+Used to restrict or define variable types.
+
+```bash
+declare -i num=10   # integer only
+typeset -r pi=3.14  # read-only (cannot change)
+```
+
+---
+
+## ✅ 9. Using `eval` (Evaluate a dynamically built expression)
+⚠️ Use with caution (security risk).
+
+```bash
+varname="username"
+value="admin"
+eval "$varname=$value"
+echo $username
+```
+---
+
+The eval command in shell scripting is used to evaluate (or execute) a string as a command after variable expansion.
+
+It takes a string as input, evaluates it twice (first for variable substitution, then for execution), and then executes it as if it were a shell command.
+
+#### 🔹 Why Use eval?
+
+- To execute dynamically constructed commands.
+
+- To handle indirect references (e.g., variables whose values are variable names).
+
+- To parse complex command strings stored in variables.
+
+#### 🔹 How eval Works – Step-by-Step
+```
+list="ls -l"
+eval $list
+
+```
+1 Shell reads eval $list.
+
+2 Substitutes $list with ls -l.
+
+3 Executes ls -l.
+
+#### ⚠️ Warning with eval
+eval can be dangerous, especially with untrusted input, because it executes arbitrary code. For example:
+```
+input="rm -rf /"
+eval $input
+```
+#### ⚠️ This will delete everything on your system if run as root.
+---
+
+## 📋 Summary Table
+
+| Method                  | Description                      | Example                   |
+|-------------------------|----------------------------------|---------------------------|
+| Direct Assignment       | Static assignment                | `x=10`                    |
+| `export`                | For child processes              | `export PATH=/usr/bin`   |
+| `read`                  | Input from user                  | `read name`              |
+| Command Substitution    | Assign command output            | `today=$(date)`          |
+| Positional Parameters   | Script arguments                 | `$1, $2, $3...`           |
+| `source` or `.`         | Load from external file          | `source vars.sh`         |
+| `declare` / `typeset`   | Set variable type/attributes     | `declare -i age=25`       |
+| `eval`                  | Dynamic assignment (caution)     | `eval "$varname=value"`   |
+
