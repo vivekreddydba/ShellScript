@@ -547,7 +547,7 @@ echo "Fourth argument (dirpath): $dirpath"
 
 Run as:
 ```bash
-./script.sh 30 20 "Balaji Reddy" /home/ec2-user
+./script.sh 30 20 "Balaji Reddy" "/home/ec2-user"
 ```
 ---
 
