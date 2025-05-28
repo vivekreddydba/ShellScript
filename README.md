@@ -541,6 +541,15 @@ dirpath=$4
 
 echo "First argument (a): $a"
 echo "Second argument (b): $b"
+
+
+echo "Addition: $((a + b))"        # 13
+echo "Subtraction: $((a - b))"     # 7
+echo "Multiplication: $((a * b))"  # 30
+echo "Division: $((a / b))"       # 3 (integer division)
+echo "Modulus: $((a % b))"         # 1
+
+
 echo "Third argument (name): $name"
 echo "Fourth argument (dirpath): $dirpath"
 ```
