@@ -517,6 +517,7 @@ echo "System HostName: $host_name"
 ## ✅ 5. From Script Arguments (Positional Parameters)
 Capture values passed when running the script.
 
+Example One
 ```bash
 #!/bin/bash
 echo "First argument: $1"
@@ -528,6 +529,26 @@ Run as:
 ./script.sh Balaji 30
 ```
 
+Example Two
+
+```bash
+#!/bin/bash
+# Assigining Script(Command Line) Args to varaibles and reffering in script
+a=$1  
+b=$2
+name=$3
+dirpath=$4
+
+echo "First argument (a): $a"
+echo "Second argument (b): $b"
+echo "Third argument (name): $name"
+echo "Fourth argument (dirpath): $dirpath"
+```
+
+Run as:
+```bash
+./script.sh 30 20 "Balaji Reddy" /home/ec2-user
+```
 ---
 
 ---
