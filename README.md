@@ -342,6 +342,11 @@ echo "All Arguments As List: $@"
 echo "Number Of arguments Passed: $#"
 ```
 
+Run as:
+```bash
+./script.sh Balaji Banglore
+```
+
 | Symbol | Description               |
 |--------|---------------------------|
 | `$0`   | Script name               |
@@ -677,4 +682,353 @@ echo "First tool: ${tools_list[0]}"
 readonly CONSTANT_VALUE="Do not change"
 # CONSTANT_VALUE="new value" # This would cause an error
 
+```
+
+---
+# 🐚 Operators in Shell Scripting
+In shell scripting, operators are used to perform various operations like arithmetic, comparison, logical operations, and string manipulations on operands such as variables and values.. Here's a detailed overview of different types of operators in shell scripting with examples:
+
+---
+
+## 📘 Types of Operators
+
+### 1. **Arithmetic Operators**
+Used for basic mathematical operations.
+
+| Operator | Description      | Example                 |
+|----------|------------------|-------------------------|
+| `+`      | Addition          | `echo $((a + b))`       |
+| `-`      | Subtraction       | `echo $((a - b))`       |
+| `*`      | Multiplication    | `echo $((a * b))`       |
+| `/`      | Division          | `echo $((a / b))`       |
+| `%`      | Modulus (remainder) | `echo $((a % b))`     |
+
+> Use `$(())` for arithmetic expansion.
+#### Example
+```
+#!/bin/bash
+
+a=10
+b=3
+
+echo "Addition: $((a + b))"        # 13
+echo "Subtraction: $((a - b))"     # 7
+echo "Multiplication: $((a * b))"  # 30
+echo "Division: $((a / b))"       # 3 (integer division)
+echo "Modulus: $((a % b))"         # 1
+echo "Exponent: $((a ** b))"       # 1000
+```
+---
+
+### 2. **Relational Operators**
+
+Used for comparison between numbers(often used with test command or [ ]).
+
+| Operator | Description           | Example                         |
+|----------|-----------------------|---------------------------------|
+| `-eq`    | Equal to              | `[ $a -eq $b ]`                 |
+| `-ne`    | Not equal to          | `[ $a -ne $b ]`                 |
+| `-gt`    | Greater than          | `[ $a -gt $b ]`                 |
+| `-lt`    | Less than             | `[ $a -lt $b ]`                 |
+| `-ge`    | Greater than or equal | `[ $a -ge $b ]`                 |
+| `-le`    | Less than or equal    | `[ $a -le $b ]`                 |
+
+#### Example
+
+```
+#!/bin/bash
+
+x=5
+y=10
+
+if [ $x -eq $y ]; then echo "Equal"; fi            # -eq
+if [ $x -ne $y ]; then echo "Not equal"; fi        # -ne
+if [ $x -gt $y ]; then echo "Greater"; fi          # -gt
+if [ $x -lt $y ]; then echo "Lesser"; fi           # -lt
+if [ $x -ge $y ]; then echo "Greater or equal"; fi  # -ge
+if [ $x -le $y ]; then echo "Lesser or equal"; fi  # -le
+```
+---
+
+### 3. **Boolean / Logical Operators**
+Used for logical operations to combine multiple conditions.
+
+
+
+| Operator | Description      | Example                       |
+|----------|------------------|-------------------------------|
+| `!`      | NOT               | `[ ! $a -eq $b ]`             |
+| `-o`     | OR                | `[ $a -eq 1 -o $b -eq 2 ]`    |
+| `-a`     | AND               | `[ $a -eq 1 -a $b -eq 2 ]`    |
+| `||`     | Logical OR        | `[ $a -eq 1 ] || [ $b -eq 2 ]`|
+| `&&`     | Logical AND       | `[ $a -eq 1 ] && [ $b -eq 2 ]`|
+
+### Example
+
+```
+#!/bin/bash
+
+a=10
+b=20
+
+# AND (&& or -a)
+if [ $a -lt 20 -a $b -gt 15 ]; then echo "Both true"; fi
+if [[ $a -lt 20 && $b -gt 15 ]]; then echo "Both true"; fi
+
+# OR (|| or -o)
+if [ $a -lt 5 -o $b -gt 15 ]; then echo "At least one true"; fi
+if [[ $a -lt 5 || $b -gt 15 ]]; then echo "At least one true"; fi
+
+# NOT (!)
+if [ ! $a -eq 5 ]; then echo "Not equal to 5"; fi
+```
+
+---
+
+### 4. **String Operators**
+Used for string comparison and checking.
+
+| Operator  | Description                     | Example                        |
+|-----------|----------------------------------|--------------------------------|
+| `=`       | Equal                            | `[ "$a" = "$b" ]`              |
+| `!=`      | Not equal                        | `[ "$a" != "$b" ]`             |
+| `-z`      | String is null (zero length)     | `[ -z "$a" ]`                  |
+| `-n`      | String is not null               | `[ -n "$a" ]`                  |
+| `<`       | Less than (alphabetically)       | `[ "$a" \< "$b" ]`            |
+| `>`       | Greater than (alphabetically)    | `[ "$a" \> "$b" ]`            |
+
+> Note: Use `\` to escape `<` or `>` in strings.
+
+### Example
+
+```
+#!/bin/bash
+
+str1="Hello"
+str2="World"
+str3=""
+
+# Comparison
+if [[ "$str1" = "$str2" ]]; then echo "Equal"; fi      # =
+if [[ "$str1" != "$str2" ]]; then echo "Not equal"; fi  # !=
+if [[ "$str1" < "$str2" ]]; then echo "Less"; fi       # < 
+if [[ "$str1" > "$str2" ]]; then echo "Greater"; fi    # >
+
+# Check if string is empty
+if [ -z "$str3" ]; then echo "Empty"; fi             # -z
+if [ -n "$str1" ]; then echo "Not empty"; fi          # -n
+
+str3="$str1 $str2"
+echo "Concatenated string: $str3"
+length="${#str1}"  # #string_var will give lengh of string value
+echo "Length of str1 is $length"
+```
+
+---
+
+### 5. **File Test Operators**
+Used to test properties of files and directories.
+
+| Operator  | Description                        | Example                        |
+|-----------|------------------------------------|--------------------------------|
+| `-e`      | File exists                        | `[ -e filename ]`             |
+| `-f`      | Regular file                       | `[ -f filename ]`             |
+| `-d`      | Directory                          | `[ -d dirname ]`              |
+| `-r`      | File is readable                   | `[ -r filename ]`             |
+| `-w`      | File is writable                   | `[ -w filename ]`             |
+| `-x`      | File is executable                 | `[ -x filename ]`             |
+| `-s`      | File is not empty                  | `[ -s filename ]`             |
+| `-L`      | File is a symbolic link            | `[ -L symlinkname ]`          |
+
+#### Example
+```
+#!/bin/bash
+
+file="example.txt"
+
+if [ -e "$file" ]; then echo "Exists"; fi             # -e
+if [ -f "$file" ]; then echo "Regular file"; fi       # -f
+if [ -d "$file" ]; then echo "Directory"; fi          # -d
+if [ -s "$file" ]; then echo "Size > 0"; fi           # -s
+if [ -r "$file" ]; then echo "Readable"; fi           # -r
+if [ -w "$file" ]; then echo "Writable"; fi           # -w
+if [ -x "$file" ]; then echo "Executable"; fi         # -x
+```
+---
+
+### 6. **Assignment Operator**
+Used to assign a value to a variable.
+
+### Example One
+```bash
+name="Balaji"
+count=$((5 + 3))
+```
+
+### Example Two
+```
+#!/bin/bash
+
+a=10
+echo "Simple assignment: $a"  # =
+
+# Compound assignments
+let "a += 5"  # a = a + 5
+echo "Add 5: $a"  # 15
+
+let "a -= 3"  # a = a - 3
+echo "Subtract 3: $a"  # 12
+
+let "a *= 2"  # a = a * 2
+echo "Multiply by 2: $a"  # 24
+
+let "a /= 4"  # a = a / 4
+echo "Divide by 4: $a"  # 6
+
+let "a %= 5"  # a = a % 5
+echo "Modulus 5: $a"  # 1
+```
+
+---
+### 7. **Ternary Operator (Conditional Operator)**
+Available in bash version 4.2+.
+
+```
+#!/bin/bash
+
+a=10
+b=20
+
+# Syntax: condition ? result_if_true : result_if_false
+max=$((a > b ? a : b))
+echo "The maximum is $max"  # 20
+```
+---
+# 📘 Best Practices While Working with Shell Scripting Operators
+
+Shell scripting operators are powerful tools for performing calculations, comparisons, and logic handling. Following best practices ensures reliability, maintainability, and reduced risk of errors.
+
+---
+
+## 🔧 1. Use `[[ ... ]]` Instead of `[ ... ]` for Conditions (Bash)
+- `[[ ... ]]` supports more features (like regex matching) and is safer with unquoted variables.
+```bash
+# Good
+if [[ "$file" == *.txt ]]; then
+  echo "Text file"
+fi
+```
+
+---
+
+## 🧩 2. Always Quote Variables
+Avoid word splitting and globbing by quoting variables in test expressions and commands.
+```bash
+# Bad
+if [ $user = "admin" ]; then
+
+# Good
+if [ "$user" = "admin" ]; then
+```
+
+---
+
+## ➕ 3. Use `$(( ))` for Arithmetic Operations
+Avoid `expr`; prefer `(( ))` or `$(( ))` for readability and safety.
+```bash
+# Good
+sum=$((a + b))
+((count++))
+```
+
+---
+
+## 4. Use `-eq`, `-ne`, `-lt`, `-gt`, `-le`, `-ge` for Integer Comparisons
+
+
+```bash
+# Good
+if [ "$count" -eq 5 ]; then
+  echo "Count is five"
+fi
+```
+
+---
+
+## 📏 5. Use `=`, `!=`, `<`, `>` for String Comparisons
+- Use `[[ ... ]]` for safe string comparisons involving `<` and `>`.
+```bash
+if [[ "$str1" = "$str2" ]]; then
+  echo "$str1 is equal to $str2"
+fi
+
+if [[ "$str1" != "$str2" ]]; then
+  echo "$str1 is not equal to $str2"
+fi
+
+if [[ "$str1" > "$str2" ]]; then
+  echo "$str1 is greate than $str2"
+fi
+
+```
+
+
+---
+
+## 🔗 6. Use Logical Operators Correctly
+### Inside `[ ... ]` or `[[ ... ]]`:
+```bash
+# Logical AND (Bash)
+if [[ "$user" = "admin" && "$status" = "active" ]]; then
+
+# Logical OR
+if [[ "$size" -gt 100 || "$size" -lt 10 ]]; then
+```
+
+---
+
+## 🧪 7. Validate Input Types
+Before performing arithmetic or string operations, check the variable type and content.
+```bash
+if [[ "$age" =~ ^[0-9]+$ ]]; then
+  echo "Valid age"
+fi
+```
+---
+## 📁 8. Document Complex Expressions
+Use inline comments to clarify the logic of compound expressions.
+```bash
+if [[ "$user" = "admin" && "$access" -eq 1 ]]; then
+  # Grant access if user is admin and access flag is set
+  grant_access
+fi
+```
+---
+
+## 📌 Example Script Using Various Operators
+
+```bash
+#!/bin/bash
+
+a=10
+b=20
+name="DevOps"
+
+# Arithmetic
+echo "Sum: $((a + b))"
+
+# Relational
+if [[ $a -lt $b ]]; then
+  echo "$a is less than $b"
+fi
+
+# String
+if [[ "$name" = "DevOps" ]]; then
+  echo "Name matched"
+fi
+
+# File test
+if [[ -f "/etc/passwd" ]]; then
+  echo "File exists"
+fi
 ```
