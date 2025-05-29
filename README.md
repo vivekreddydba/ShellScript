@@ -848,7 +848,7 @@ if [[ "$str1" > "$str2" ]]; then echo "Greater"; fi    # >
 if [ -z "$str3" ]; then echo "Empty"; fi             # -z
 if [ -n "$str1" ]; then echo "Not empty"; fi          # -n
 
-str3="$str1 $str2"
+str3="${str1} ${str2}"
 echo "Concatenated string: $str3"
 length="${#str1}"  # #string_var will give lengh of string value
 echo "Length of str1 is $length"
