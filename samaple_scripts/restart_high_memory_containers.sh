@@ -6,7 +6,7 @@
 # Memory usage threshold in MiB (e.g., 500 MiB)
 threshold_mb=500
 
-echo "📦 Checking running Docker containers for memory usage..."
+echo "Checking running Docker containers for memory usage..."
 
 # Get container IDs
 containers=$(docker ps -q)
@@ -28,16 +28,16 @@ for container in $containers; do
 
   mem_int=${mem_usage%.*}
 
-  echo "🔍 $name is using $mem_int MiB"
+  echo "$name is using $mem_int MiB"
 
   # Check if memory exceeds threshold
   if [ "$mem_int" -ge "$threshold_mb" ]; then
-    echo "⚠️  $name is using high memory ($mem_int MiB) — restarting..."
+    echo "$name is using high memory ($mem_int MiB) — restarting..."
     docker restart "$container"
-    echo "🔁 $name restarted."
+    echo "$name restarted."
   fi
 
   echo "------------------------------"
 done
 
-echo "✅ Memory check and restart operation completed."
+echo " Memory check and restart operation completed."

@@ -14,11 +14,11 @@ log_file="/var/log/top_process.log"
 timestamp=$(date '+%Y-%m-%d %H:%M:%S')
 
 echo "==============================" | tee -a "$log_file"
-echo "📊 Process Monitor @ $timestamp" | tee -a "$log_file"
+echo " Process Monitor @ $timestamp" | tee -a "$log_file"
 echo "==============================" | tee -a "$log_file"
 
 # === Top 5 by CPU Usage ===
-echo "🔝 Top 5 Processes by CPU Usage:" | tee -a "$log_file"
+echo " Top 5 Processes by CPU Usage:" | tee -a "$log_file"
 echo "PID   USER     CPU%   MEM%   COMMAND" | tee -a "$log_file"
 
 ps -eo pid,user,%cpu,%mem,comm --sort=-%cpu | head -n 6 | tail -n 5 | while read pid user cpu mem cmd; do
@@ -48,4 +48,4 @@ ps -eo pid,user,%cpu,%mem,comm --sort=-%mem | head -n 6 | tail -n 5 | while read
     fi
 done
 
-echo "✅ Monitoring complete." | tee -a "$log_file"
+echo " Monitoring complete." | tee -a "$log_file"
