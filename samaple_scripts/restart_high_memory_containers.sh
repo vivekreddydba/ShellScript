@@ -4,7 +4,7 @@
 # Description: Restart Docker containers using more memory than the threshold
 
 # Memory usage threshold in MiB (e.g., 500 MiB)
-THRESHOLD_MB=500
+threshold_mb=500
 
 echo "📦 Checking running Docker containers for memory usage..."
 
@@ -31,7 +31,7 @@ for container in $containers; do
   echo "🔍 $name is using $mem_int MiB"
 
   # Check if memory exceeds threshold
-  if [ "$mem_int" -ge "$THRESHOLD_MB" ]; then
+  if [ "$mem_int" -ge "$threshold_mb" ]; then
     echo "⚠️  $name is using high memory ($mem_int MiB) — restarting..."
     docker restart "$container"
     echo "🔁 $name restarted."

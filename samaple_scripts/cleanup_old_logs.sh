@@ -21,14 +21,14 @@ for dir in "${log_dirs[@]}"; do
       | xargs -0 rm -v 2>/dev/null | wc -l)
 
     if [ "$deleted_count" -gt 0 ]; then
-      echo "✅ $deleted_count log files deleted from $dir"
+      echo "$deleted_count log files deleted from $dir"
     else
-      echo "ℹ️  No old log files to delete in $dir"
+      echo "No old log files to delete in $dir"
     fi
   else
-    echo "⚠️  Directory not found: $dir"
+    echo "Directory not found: $dir"
   fi
   echo "---------------------------"
 done
 
-echo "✅ Log cleanup complete."
+echo "Log cleanup complete."

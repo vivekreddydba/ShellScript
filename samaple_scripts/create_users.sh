@@ -37,7 +37,7 @@ create_user() {
 
         echo "$username:$password" | chpasswd
 
-        echo "✅ User '$username' created and added to group '$groupname'."
+        echo "User '$username' created and added to group '$groupname'."
         echo "[$(date)] INFO: User '$username' created with group '$groupname'." >> "$LOG_FILE"
     fi
 }
@@ -45,12 +45,12 @@ create_user() {
 # ===== Main Script Execution =====
 
 if [ "$EUID" -ne 0 ]; then
-    echo "❌ Please run this script as root."
+    echo "Please run this script as root."
     exit 1
 fi
 
 if [ ! -f "$CSV_FILE" ]; then
-    echo "❌ CSV file '$CSV_FILE' not found."
+    echo "CSV file '$CSV_FILE' not found."
     exit 1
 fi
 
