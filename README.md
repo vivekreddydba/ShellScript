@@ -1062,3 +1062,417 @@ if [[ -f "/etc/passwd" ]]; then
   echo "File exists"
 fi
 ```
+# 📘 Conditional Statements in Shell Scripting
+
+## 📖 What Are Conditional Statements?
+
+Conditional statements in shell scripting allow the execution of different commands based on whether a condition is true or false.
+
+They are essential for **decision-making**, enabling logic like:
+- if something is true, do this
+- else, do that
+
+---
+
+## 🧰 Types of Conditional Statements
+
+1. **if** statement  
+2. **if-else** statement  
+3. **if-elif-else** ladder  
+4. **nested if** statement  
+5. **case** statement
+
+---
+
+## 1️⃣ if Statement
+
+```bash
+if [ condition ]; then
+   command(s)
+fi
+```
+
+**Example:**
+```bash
+if [ $age -gt 18 ]; then
+  echo "Adult"
+fi
+```
+
+---
+
+## 2️⃣ if-else Statement
+The if-else statement allows you to execute a block of code if a specified condition is true, otherwise, another block of code is executed.
+
+```bash
+if [ condition ]; then
+   command(s)
+else
+   command(s)
+fi
+```
+
+**Example One:**
+```bash
+
+#!/bin/bash
+
+age=12
+if [ $age -lt 18 ]; then
+  echo "Minor"
+else
+  echo "Adult"
+fi
+```
+
+**Example Two:**
+
+```bash
+
+#!/bin/bash
+# Example of checking file existence using if and else statement
+file="demo.sh"
+
+if [ -f "$file" ]
+then
+    echo "File $file exists."
+else
+    echo "File $file does not exist."
+fi
+```
+
+---
+
+## 3️⃣ if-elif-else Ladder
+The if-elif-else statement allows you to test multiple conditions and execute a block of code as soon as one of the conditions evaluates to true.
+
+```bash
+if [ condition1 ]; then
+   command(s)
+elif [ condition2 ]; then
+   command(s)
+else
+   command(s)
+fi
+```
+
+**Example One:**
+```bash
+
+#!/bin/bash
+
+marks=91
+
+if [ $marks -ge 90 ]; then
+  echo "Grade A"
+elif [ $marks -ge 75 ]; then
+  echo "Grade B"
+else
+  echo "Grade C"
+fi
+
+```
+
+**Example Two:**
+```bash
+
+# Example of using if-elif-else to check disk space and take action
+threshold_critical=15
+threshold_warning=12
+current_usage=$(df -h / | awk 'NR==2 {print $5}' | cut -d'%' -f1)
+
+echo "Current disk usage: $current_usage%"
+
+if [ $current_usage -ge $threshold_critical ]  # >=
+then
+    echo "Disk usage is critical ($current_usage%). Taking immediate action!"
+    # Add commands to free up disk space or notify administrators
+elif [ $current_usage -ge $threshold_warning ]
+then
+    echo "Disk usage is high ($current_usage%). Consider freeing up space."
+    # Add commands to optimize disk usage
+else
+    echo "Disk usage is normal ($current_usage%)."
+fi
+```
+
+---
+
+## 4️⃣ Nested if Statement
+
+```bash
+if [ condition1 ]; then
+  if [ condition2 ]; then
+     command(s)
+  fi
+fi
+```
+
+**Example One:**
+```bash
+#!/bin/bash
+
+age=22
+citizen=yes
+
+if [ $age -ge 18 ]; then
+   echo "age is $age"
+  if [ $citizen = "yes" ]; then
+    echo "Eligible to vote"
+  fi
+fi
+```
+**Example Two:**
+```bash
+#!/bin/bash
+
+service="nginx"
+port=80
+
+# Check if service is running
+if systemctl is-active --quiet "$service"; then
+    echo "$service service is running."
+
+    # Nested check: Is the port open?
+    if ss -tuln | grep -q ":$port"; then
+        echo "Port $port is also listening."
+    else
+        echo "Warning: $service is running, but port $port is NOT listening!"
+    fi
+else
+    echo "Alert: $service service is NOT running."
+fi
+
+```
+---
+
+## 5️⃣ case Statement
+
+Used as a switch-case alternative for multiple conditions.
+
+```bash
+case $variable in
+  pattern1)
+    command;;
+  pattern2)
+    command;;
+  *)
+    default_command;;
+esac
+```
+
+**Example One:**
+```bash
+#!/bin/bash
+
+# Example of a basic case statement
+fruit="apple"
+
+case $fruit in
+    apple)
+        echo "It's a fruit: apple."
+        ;;
+    banana)
+        echo "It's a fruit: banana."
+        ;;
+    orange | mandarin)
+        echo "It's a citrus fruit."
+        ;;
+    *)
+        echo "Unknown fruit."
+        ;;
+esac
+```
+**Example Two**
+
+```bash
+#!/bin/bash
+
+# Example of using case to check days of the week
+day="Monday"
+
+case $day in
+    Monday | Tuesday | Wednesday | Thursday | Friday)
+        echo "$day is a weekday."
+        ;;
+    Saturday | Sunday)
+        echo "$day is a weekend day."
+        ;;
+    *)
+        echo "Invalid day."
+        ;;
+esac
+```
+
+**Example Three:**
+
+```bash
+#!/bin/bash
+
+SERVICE="nginx"
+
+echo "Choose an action for $SERVICE:"
+echo "start | stop | status | restart"
+
+read -p "Action: " action
+
+case $action in
+  start)
+    sudo systemctl start $SERVICE
+    echo "$SERVICE started."
+    ;;
+  stop)
+    sudo systemctl stop $SERVICE
+    echo "$SERVICE stopped."
+    ;;
+  status)
+    systemctl status $SERVICE
+    ;;
+  restart)
+    sudo systemctl restart $SERVICE
+    echo "$SERVICE restarted."
+    ;;
+  *)
+    echo "Unknown action. Use start, stop, status, or restart."
+    ;;
+esac
+```
+
+---
+
+## ✅ Condition Checks (Operators)
+
+| Type         | Operator       | Description                |
+|--------------|----------------|----------------------------|
+| Numeric      | -eq, -ne, -lt, -le, -gt, -ge | Integer comparison |
+| String       | =, !=, -z, -n  | String comparison |
+| File         | -e, -f, -d, -s, -r, -w, -x | File checks |
+| Logical AND  | && or -a       | Both conditions true       |
+| Logical OR   | || or -o       | At least one condition true |
+| Negation     | !              | NOT                        |
+
+---
+
+## 🔐 Best Practices
+
+- Always quote variables: `"$var"` to prevent word splitting.
+- Use `[[ ... ]]` for string comparisons (safer and more flexible).
+- Use `(( ... ))` for arithmetic evaluations.
+- Validate user input before comparing.
+- Use `case` over multiple `if` when checking multiple string values.
+
+---
+# Loops in Shell Scripts
+
+Loops in shell scripts are control structures that allow you to execute a block of code repeatedly. They are fundamental for automating tasks and handling collections of data.
+
+There are three primary types of loops in shell scripting:
+
+- `for`
+- `while`
+- `until`
+
+---
+
+## 1. For Loop
+
+The `for` loop iterates over a list of items, executing the loop body once for each item.
+
+**Syntax:**
+```bash
+for variable in item1 item2 ... itemN
+do
+  # commands to execute
+done
+```
+
+**Example:**
+```bash
+for fruit in apple banana cherry
+do
+  echo "I like $fruit"
+done
+```
+
+**Output:**
+```
+I like apple
+I like banana
+I like cherry
+```
+
+---
+
+## 2. While Loop
+
+The `while` loop executes a block of code **as long as a given condition is true**.
+
+**Syntax:**
+```bash
+while [ condition ]
+do
+  # commands to execute
+done
+```
+
+**Example:**
+```bash
+count=1
+while [ $count -le 5 ]
+do
+  echo "Count: $count"
+  count=$((count + 1))
+done
+```
+
+**Output:**
+```
+Count: 1
+Count: 2
+Count: 3
+Count: 4
+Count: 5
+```
+---
+
+## 3. Until Loop
+
+The `until` loop executes a block of code **as long as a given condition is false**. It's essentially the opposite of the `while` loop.
+
+**Syntax:**
+```bash
+until [ condition ]
+do
+  # commands to execute
+done
+```
+
+**Example:**
+```bash
+count=1
+until [ $count -gt 5 ]
+do
+  echo "Count: $count"
+  count=$((count + 1))
+done
+```
+
+**Output:**
+```
+Count: 1
+Count: 2
+Count: 3
+Count: 4
+Count: 5
+```
+
+---
+
+## Control Statements
+
+Within loops, control statements are used to manage loop execution:
+
+- `break`: Exit the loop immediately.
+- `continue`: Skip the current iteration and proceed to the next one.
+
+These loops and control statements provide the basic tools to handle **repetitive tasks** and **data processing** within shell scripts.
