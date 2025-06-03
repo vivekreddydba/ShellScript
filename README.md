@@ -1619,3 +1619,564 @@ Within loops, control statements are used to manage loop execution:
 - `continue`: Skip the current iteration and proceed to the next one.
 
 These loops and control statements provide the basic tools to handle **repetitive tasks** and **data processing** within shell scripts.
+
+---
+## Arrays in Linux Shell Scripting (Bash)
+
+Arrays in Linux (specifically in Bash shell scripting) allow you to store multiple values in a single variable, making it easier to manage lists such as IPs, files, services, or hosts.
+
+## Declaring an Array
+
+```bash
+fruits=("apple" "banana" "cherry")
+# Using declare -a same effect as above, just explicitly declared as an array
+#declare -a fruits=("apple" "banana" "cherry")
+```
+
+##  Accessing Array Elements
+
+```bash
+fruits=("apple" "banana" "cherry")
+echo ${fruits[0]}     # apple
+echo ${fruits[2]}     # cherry
+```
+
+---
+
+## Accessing All Elements
+
+```bash
+fruits=("apple" "banana" "cherry")
+echo ${fruits[@]}     # apple banana cherry
+echo ${fruits[*]}     # apple banana cherry
+```
+
+---
+
+## Getting Array Length
+
+```bash
+fruits=("apple" "banana" "cherry")
+echo ${#fruits[@]}    # 3
+```
+
+---
+
+##  Adding/Modifying Elements
+
+```bash
+fruits=("apple" "banana" "cherry")
+fruits[3]="mango"
+fruits[1]="orange"    # modifies banana to orange
+```
+
+##  Deleting Elements
+
+```bash
+fruits=("apple" "banana" "cherry")
+unset fruits[2]       # deletes cherry
+echo ${fruits[@]}
+```
+
+## Assign Individual Elements
+
+```bash
+
+#!/bin/bash
+
+declare -a fruits
+fruits[0]="apple"
+fruits[1]="banana"
+fruits[2]="cherry"
+
+for fruit in "${fruits[@]}"; do
+  echo "I like $fruit"
+done
+```
+
+---
+
+## 🔁 7. Iterating Through an Array (Real-Time DevOps Examples)
+
+### ✅ Example 1: Ping List of Servers
+
+```bash
+servers=("google.com" "github.com" "192.168.1.1")
+
+for host in "${servers[@]}"; do
+  ping -c 1 "$host" &>/dev/null && echo "$host is reachable" || echo "$host is unreachable"
+done
+```
+
+---
+
+### ✅ Example 2: Restart System Services
+
+```bash
+services=("nginx" "docker" "sshd")
+
+for svc in "${services[@]}"; do
+  echo "Restarting $svc..."
+  systemctl restart "$svc"
+done
+```
+
+---
+
+### ✅ Example 3: Loop Over List of Files
+
+```bash
+log_files=("/var/log/syslog" "/var/log/dmesg")
+
+for file in "${log_files[@]}"; do
+  echo "Processing $file"
+  tail -n 5 "$file"
+done
+```
+
+---
+
+### ✅ Example 4: Indexed Loop Example
+
+```bash
+apps=("build" "test" "deploy")
+
+for ((i=0; i<${#apps[@]}; i++)); do
+  echo "Step $((i+1)): ${apps[$i]}"
+done
+```
+
+---
+
+## 🧠 Summary Table
+
+| Operation             | Syntax                              |
+|-----------------------|-------------------------------------|
+| Declare Array         | `arr=(one two three)`               |
+| Access Element        | `${arr[0]}`                         |
+| All Elements          | `${arr[@]}`                         |
+| Array Length          | `${#arr[@]}`                        |
+| Add/Change Value      | `arr[2]="value"`                    |
+| Delete Element        | `unset arr[1]`                      |
+| Loop (Element-wise)   | `for i in "${arr[@]}"`              |
+| Loop (Index-based)    | `for ((i=0; i<${#arr[@]}; i++))`    |
+
+---
+# Functions in Shell Scripting
+
+## Definition
+
+A function is a reusable block of code that performs a specific task. Instead of repeating code, you define it once and call it multiple times.
+
+✅ Benefits:
+Avoid repetition (DRY principle)
+
+Easier to maintain and debug
+
+Improves readability and modularity
+
+---
+
+## 🧱 Syntax of Defining Functions
+
+### Syntax 1:
+```bash
+function_name () {
+    # Commands to be executed
+    command1
+    command2
+}
+```
+
+### Syntax 2:
+```bash
+
+function function_name {
+    # Commands to be executed
+    command1
+    command2
+}
+}
+```
+
+---
+
+## ✅ Basic Example
+
+```bash
+#!/bin/bash
+
+testing() {
+    echo "Hello, World!"
+}
+testing
+```
+
+---
+
+## 📥 Passing Parameters to Functions
+
+```bash
+#!/bin/bash
+
+greet_user() {
+    local name="$1"
+    echo "Hello, $name!"
+}
+
+greet_user "Rushi Technologies"
+```
+
+---
+
+### Example: Sum of Two Numbers
+
+```bash
+#!/bin/bash
+
+sum() {
+    local num1="$1"
+    local num2="$2"
+    local total=$(( num1 + num2 ))
+    echo "Sum of $num1 and $num2 is: $total"
+}
+
+sum 10 20
+```
+
+---
+
+## 🔁 Return Values in Functions
+
+Shell functions don’t return values traditionally. Use `echo` or global variables.
+
+Shell functions do not have a traditional return statement like other programming languages. Instead, the return status of the last executed command is used as the return value of the function. To explicitly return a value, you can use echo or modify a global variable.
+
+
+**Return string using echo Example One**
+```bash
+#!/bin/bash
+square() {
+    local num="$1"
+    local result=$(( num * num ))
+    echo "$result"
+}
+
+output=$(square 5)
+echo "Square of 5 is: $output"
+```
+
+**Return string using echo Example Two**
+
+```bash
+
+#!/bin/bash
+
+get_current_user() {
+    echo "$(whoami)"
+}
+
+user=$(get_current_user)
+echo "Logged in user is: $user"
+
+```
+
+**Retun Exit status (0–255) using return**
+
+```
+check_even() {
+    if (( $1 % 2 == 0 )); then
+        return 0
+    else
+        return 1
+    fi
+}
+
+check_even 4
+if [ $? -eq 0 ]; then
+    echo "Even"
+else
+    echo "Odd"
+fi
+
+```
+
+---
+
+## 🌐 Local vs Global Variables
+
+Variables declared inside a function called as a local variable, and variables outside function called as global variables.
+Local variable scope is with  in that block only, Global variable scope is entire script.
+
+```bash
+#!/bin/bash
+
+global_var="Global"
+
+demo_local_var() {
+    local local_var="Local"
+    echo "Inside function: local_var=$local_var, global_var=$global_var"
+}
+
+demo_local_var
+
+echo "Outside function: local_var=$local_var"
+echo "Outside function: global_var=$global_var"
+```
+
+---
+
+## 🔢 Print Numbers with Delay
+
+```bash
+#!/bin/bash
+
+print_numbers() {
+    local n="$1"
+    for (( i=1; i<=n; i++ ))
+    do
+        echo "$i"
+        sleep 5
+    done
+}
+
+print_numbers 5
+```
+
+---
+
+# 📌 Realtime Examples Using Functions
+
+---
+
+## Example  Check if a service is running
+
+```bash
+
+#!/bin/bash
+check_service_status() {
+    service=$1
+    systemctl is-active --quiet "$service"
+    if [ $? -eq 0 ]; then
+        echo "$service is running"
+    else
+        echo "$service is not running"
+    fi
+}
+
+check_service_status sshd
+check_service_status nginx
+
+```
+
+##  Example User Management Script
+
+```bash
+#!/bin/bash
+
+add_user() {
+    local username="$1"
+    sudo useradd -m "$username"
+    echo "User '$username' added successfully."
+}
+
+delete_user() {
+    local username="$1"
+    sudo userdel -r "$username"
+    if [ $? -eq 0 ]; then
+        echo "User '$username' deleted successfully."
+    else
+        echo "Invalid user"
+    fi
+}
+
+list_users() {
+    local users=$(cut -d: -f1 /etc/passwd)
+    echo "List of users:"
+    echo "$users"
+}
+
+echo "Choose an option:"
+echo "1. Add a user"
+echo "2. Delete a user"
+echo "3. List all users"
+read -p "Enter your choice: " choice
+
+case $choice in
+    1) read -p "Enter username: " username
+       add_user "$username"
+       ;;
+    2) read -p "Enter username to delete: " username
+       read -p "Are you sure? (yes/no): " decision
+       if [ "$decision" = "yes" ]; then
+           delete_user "$username"
+       else
+           echo "Operation cancelled."
+       fi
+       ;;
+    3) list_users ;;
+    *) echo "Invalid choice." ;;
+esac
+```
+
+---
+
+##  Example  Even/Odd Checker
+
+```bash
+#!/bin/bash
+
+check_even_odd() {
+    local number="$1"
+    if (( number % 2 == 0 )); then
+        echo "$number is even."
+    else
+        echo "$number is odd."
+    fi
+}
+
+for ((i=1; i<=5; i++))
+do
+    read -p "Enter a number: " num
+    if [ "$num" -gt -1 ]; then
+        check_even_odd "$num"
+    else
+        echo "Please enter a valid number."
+    fi
+done
+```
+
+---
+
+## Example Array Handling
+
+```bash
+#!/bin/bash
+
+print_array() {
+    local arr=("$@")
+    echo "Array elements:"
+    for item in "${arr[@]}"
+    do
+        echo "$item"
+    done
+}
+
+my_array=("apple" "banana" "cherry" "date")
+print_array "${my_array[@]}"
+```
+
+---
+
+## Example  Delete a File
+
+```bash
+#!/bin/bash
+
+risky_operation() {
+    local fname="$1"
+    if [ -f "$fname" ]; then
+        echo "Processing file: $fname"
+        rm -rf "$fname"
+        echo "$fname deleted successfully."
+    else
+        echo "Error: File $fname does not exist."
+    fi
+}
+
+read -p "Enter a file name: " fname
+risky_operation "$fname"
+```
+
+---
+
+##  Example Check Disk Usage
+
+```bash
+#!/bin/bash
+
+check_disk_usage() {
+    local threshold=80
+    local disk_usage=$(df -h / | awk 'NR==2 {print $5}' | sed 's/%//')
+    echo "Disk usage: $disk_usage%"
+
+    if (( disk_usage >= threshold )); then
+        echo "Warning: Disk usage exceeds $threshold%."
+    else
+        echo "Disk usage is within limits."
+    fi
+}
+
+check_disk_usage
+```
+
+---
+
+## Example  Calculate Average
+
+```bash
+#!/bin/bash
+
+calculate_average() {
+    local total=0
+    local count=0
+    for num in "$@"
+    do
+        total=$(( total + num ))
+        (( count++ ))
+    done
+    local average=$(( total / count ))
+    echo "Average: $average"
+}
+
+calculate_average 10 20 30
+calculate_average 5 15 25 35 45
+```
+
+---
+
+## Example  Install or Uninstall Packages
+
+```bash
+#!/bin/bash
+
+install() {
+    local arg="$1"
+    sudo yum install "$arg" -y
+}
+
+un_install() {
+    local arg="$1"
+    sudo yum remove "$arg" -y
+}
+
+echo "Enter package name:"
+read package
+install "$package"
+```
+
+---
+
+## Example System Information Report
+
+```bash
+#!/bin/bash
+
+gather_system_info() {
+    local hostname=$(hostname)
+    local kernel=$(uname -r)
+    local cpu_cores=$(grep -i "cpu cores" /proc/cpuinfo | awk '{print $4}' | head -1)
+    local memory=$(free -h | awk '/Mem/ {print $7}')
+    local disk_usage=$(df -h / | awk 'NR==2 {print $5}')
+
+    echo "System Information:"
+    echo "=================="
+    echo "Hostname     : $hostname"
+    echo "Kernel       : $kernel"
+    echo "CPU Cores    : $cpu_cores"
+    echo "Free Memory  : $memory"
+    echo "Disk Usage   : $disk_usage"
+}
+
+gather_system_info
+```
