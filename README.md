@@ -1388,6 +1388,7 @@ done
 
 **Example:**
 ```bash
+#!/bin/bash
 for fruit in apple banana cherry
 do
   echo "I like $fruit"
@@ -1401,6 +1402,92 @@ I like banana
 I like cherry
 ```
 
+**Bash also supports a C-style for loop:**
+
+```bash
+
+#!/bin/bash
+for (( i=1; i<=5; i++ ))
+do
+    echo "Number: $i"
+done
+```
+
+**:**
+
+```bash
+
+#!/bin/bash
+
+echo "Listing all files in the current directory:"
+
+for file in *  # or use `for file in $(ls)` but * is better practice
+do
+  if [ -f "$file" ]; then
+    echo "$file"
+  fi
+done
+```
+**To List Files Recursively in All Subdirectories:**
+
+```bash
+#!/bin/bash
+echo "Listing all files in current directory and subdirectories:"
+for file in $(find . -type f)
+do
+  echo "$file"
+done
+```
+
+**List all directories in the current directory:**
+```bash
+
+#!/bin/bash
+echo "Listing all directories in the current directory:"
+for item in *; do
+  if [ -d "$item" ]; then
+    echo "$item"
+  fi
+done
+```
+**Check Memory Usage of All Running Docker Containers**
+
+```bash
+#!/bin/bash
+echo "Memory usage of running Docker containers:"
+for container in $(docker ps -q); do
+  echo "Container ID: $container"
+  docker stats --no-stream --format "Container: {{.Name}}, Mem Usage: {{.MemUsage}}" $container
+done
+```
+
+**Find and Archive Large Log Files**
+```bash
+#!/bin/bash
+threshold=100  # in MB
+for logfile in /var/log/*.log; do
+  size=$(du -m "$logfile" | cut -f1)
+  if [ "$size" -gt "$threshold" ]; then
+    gzip "$logfile"
+    echo "Archived $logfile ($size MB)"
+  fi
+done
+```
+
+**Ping List of Servers and Check Availability**
+
+```bash
+#!/bin/bash
+servers=("google.com" "github.com" "internal.dev.server")
+for server in "${servers[@]}"; do
+  if ping -c 1 "$server" &>/dev/null; then
+    echo "$server is reachable"
+  else
+    echo "$server is DOWN"
+  fi
+done
+
+```
 ---
 
 ## 2. While Loop
@@ -1417,6 +1504,8 @@ done
 
 **Example:**
 ```bash
+
+#!/bin/bash
 count=1
 while [ $count -le 5 ]
 do
@@ -1432,6 +1521,60 @@ Count: 2
 Count: 3
 Count: 4
 Count: 5
+```
+
+**Example Two Reading a File Line by Line**
+```
+#!/bin/bash
+# This loop reads file.txt line by line, printing each line.
+# When reading files, IFS= read -r line is a safer approach to handle spaces and backslashes in lines.
+while IFS= read -r line
+do
+  echo "Line: $line"
+done < file.txt
+```
+
+**Example Three Infinite loop**
+
+In this case, you're running the loop with a true condition, which means it will run forever or until you hit CTRL-C to inturupt. Therefore, you need to keep an eye on it (otherwise, it will remain using the system's resources).
+
+```
+#!/bin/bash
+while true
+do
+  df -k | grep home
+  sleep 1
+done
+```
+**Docker + While Loop Restart High-Memory Containers**
+```bash
+#!/bin/bash
+
+threshold=200  # Memory usage threshold in MB
+
+# Get list of running containers
+containers=$(docker ps -q)
+total=$(echo "$containers" | wc -l)
+index=1
+
+while [ $index -le $total ]; do
+  container_id=$(echo "$containers" | sed -n "${index}p")
+  name=$(docker inspect --format '{{.Name}}' "$container_id" | sed 's/^\\///')
+
+  # Get memory usage in MB (only the numeric part)
+  mem=$(docker stats --no-stream --format "{{.MemUsage}}" "$container_id" | awk '{print $1}' | sed 's/[^0-9.]//g')
+  mem_int=${mem%.*}
+
+  echo "$name (ID: $container_id) is using ${mem_int}MB"
+
+  if [ "$mem_int" -gt "$threshold" ]; then
+    echo "Memory exceeds ${threshold}MB. Restarting $name..."
+    docker restart "$container_id"
+  fi
+
+  ((index++))
+done
+
 ```
 ---
 
